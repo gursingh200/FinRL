@@ -1,3 +1,4 @@
 {
-    "makefile.extensionOutputFolder": "./.vscode"
+    "makefile.extensionOutputFolder": "./.vscode",
+    "python.pythonPath": "/home/gurmehar/anaconda3/envs/finrl/bin/python"
 }
