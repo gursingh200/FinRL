@@ -1,4 +1,5 @@
 from __future__ import annotations
+from curses import window
 
 import datetime
 from multiprocessing.sharedctypes import Value
@@ -67,12 +68,14 @@ class FeatureEngineer:
         use_vix=False,
         use_turbulence=False,
         user_defined_feature=False,
+        window_size = 21
     ):
         self.use_technical_indicator = use_technical_indicator
         self.tech_indicator_list = tech_indicator_list
         self.use_vix = use_vix
         self.use_turbulence = use_turbulence
         self.user_defined_feature = user_defined_feature
+        self.window_size = window_size
 
     def preprocess_data(self, df):
         """main method to do the feature engineering
@@ -169,6 +172,14 @@ class FeatureEngineer:
         # df = df.join(df.groupby(level=0, group_keys=False).apply(lambda x, y: Sdf.retype(x)[y], y=self.tech_indicator_list))
         # return df.reset_index()
 
+    def downside_deviation_lambda(self, data):
+        """
+        function to compute the downside deviation of an array
+        :param data: (data) numpy array
+        :return: (dd) float
+        """
+        return np.sqrt(np.sum(data[data<0]**2)/self.window_size)
+
     def add_user_defined_feature(self, data):
         """
          add user defined features
@@ -176,11 +187,30 @@ class FeatureEngineer:
         :return: (df) pandas dataframe
         """
         df = data.copy()
-        df["daily_return"] = df.close.pct_change(1)
+        # df["daily_return"] = df.close.pct_change(1)
         # df['return_lag_1']=df.close.pct_change(2)
         # df['return_lag_2']=df.close.pct_change(3)
         # df['return_lag_3']=df.close.pct_change(4)
         # df['return_lag_4']=df.close.pct_change(5)
+
+        # Adding a feature which computes the returns over the window before so that it can be fed to the model. 
+        # This allows using Sharpe or Sterling Ratio 
+        # Padding with zeros in the start so returns over the window before so that it can be fed to the model. 
+        # This ensures that there are no NaNs
+        zero_data = np.zeros(shape=(self.window_size-1,len(df.columns)))
+        pad = pd.DataFrame(zero_data, columns=df.columns)
+        df = pd.concat([pad,df])
+
+
+        df["rolling_sum"] = df["close"].rolling(self.window_size).sum()
+        df["rolling_dd"] = df["close"].rolling(self.window_size).apply(lambda x: self.downside_deviation_lambda(x))
+
+
+        # Rolling downside deviation vs rolling sharpe vs rolling drawdown
+
+        # Removing the added padding
+        df = df.iloc[self.window_size-1:]
+        
         return df
 
     def add_vix(self, data):
