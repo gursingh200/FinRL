@@ -47,7 +47,7 @@ class StockTradingEnv(gym.Env):
         mode="",
         iteration="",
         window_size = 21,
-        reward_type = "Sharpe" # "Sharpe", "Sortino", "Sterling"
+        reward_type = "Sharpe" # "Sharpe", "Sortino", "Profit"
     ):
         self.day = day
         self.df = df
@@ -106,7 +106,7 @@ class StockTradingEnv(gym.Env):
             self.reward_type = reward_type
         else:
             self.reward_type = "Sortino"
-            print(reward_type, "is not a valid reward type, please re-enter from the list [Sharpe, Sortino, Sterling]. Using Sortino Ratio")
+            print(reward_type, "is not a valid reward type, please re-enter from the list [Sharpe, Sortino, Profit]. Using Sortino Ratio")
 
         # Window size for the rolling sterling ratio
         self.window_size = window_size
@@ -235,28 +235,10 @@ class StockTradingEnv(gym.Env):
         plt.savefig(f"results/account_value_trade_{self.episode}.png")
         plt.close()
 
-    # def compute_iterative_average(self,t,prev_average,cur_return):
-    #     return prev_average + (cur_return-prev_average)/t
-
-    # def compute_iterative_downside_deviation(self,t,prev_deviation,cur_return):
-    #     sq_downside_deviation = prev_deviation**2 + (np.min(cur_return,0)**2 - prev_deviation**2)/t
-
-    #     return np.sqrt(sq_downside_deviation)
-
-    # def downside_deviation_ratio(self,t,prev_average,prev_deviation):
-    #     cur_return = self.state[0] -  self.asset_memory[0] + sum(
-    #         np.array(self.state[1 : (self.stock_dim + 1)])*
-    #         np.array(self.state[(self.stock_dim + 1) : (self.stock_dim * 2 + 1)])
-    #         ) 
-    #     average_return = self.compute_iterative_average(t,prev_average,cur_return)
-
-    #     downside_deviation = self.compute_iterative_downside_deviation(prev_deviation)
-       
-    #     reward = average_return/downside_deviation
-        
-    #     return reward
-
     def rolling_downside_deviation_ratio(self,cur_return):
+        '''
+        Function that computes the Sortino ratio.
+        '''
         
         # rmv is the element we have to remove from the prev average and prev downside deviation
         rmv = self.returns_queue.pop(0)
@@ -279,28 +261,54 @@ class StockTradingEnv(gym.Env):
         
         return reward
     
-    # def rolling_sharpe_ratio(self,cur_return):
+    def rolling_sharpe_ratio(self,cur_return):
+        '''
+        Function that computes the Sharpe ratio
+        '''
+        # rmv is the element we have to remove from the prev average and prev downside deviation
+        rmv = self.returns_queue.pop(0)
         
-    #     # rmv is the element we have to remove from the prev average and prev downside deviation
+        cur_average = self.prev_average + (cur_return-rmv)/self.window_size
+        
+        window_variance = self.prev_deviation**2 + (cur_return**2 - rmv**2)/self.window_size
+        
+        std_deviation= np.sqrt(window_variance)
+        
+        if(std_deviation!=0):
+            reward = cur_average/std_deviation
+        else:
+            reward = cur_average/0.01 # Assigning a very large reward to the agent, but not infinite  
+
+        # Updating the class object for the next iteration of the loop
+        self.returns_queue.append(cur_return)
+        self.prev_average = cur_average
+        self.prev_deviation = std_deviation
+        
+        return reward
+
+    # def rolling_sterling_ratio(self,cur_return):
+
+    #     # Pretty inefficient way of computing max_drawdown
+
     #     rmv = self.returns_queue.pop(0)
-        
     #     cur_average = self.prev_average + (cur_return-rmv)/self.window_size
-        
-    #     window_variance = self.prev_deviation**2 + (cur_return**2 - rmv**2)/self.window_size
-        
-    #     std_deviation= np.sqrt(window_variance)
-        
-    #     if(std_deviation!=0):
-    #         reward = cur_average/std_deviation
+    #     self.returns_queue.append(cur_return)
+    #     max_dd = 0
+
+    #     peak = self.returns_queue[0]
+    #     for price in self.returns_queue:
+    #         if price > peak:
+    #             peak = price
+    #             drawdown = (peak - price) / peak
+    #         if drawdown > max_drawdown:
+    #             max_drawdown = drawdown
+
+    #     if(max_dd!=0):
+    #         reward = cur_average/max_dd
     #     else:
     #         reward = cur_average/0.01 # Assigning a very large reward to the agent, but not infinite  
 
-    #     # Updating the class object for the next iteration of the loop
-    #     self.returns_queue.append(cur_return)
-    #     self.prev_average = cur_average
-    #     self.prev_deviation = std_deviation
-        
-    #     return reward
+
 
     
     def step(self, actions):
@@ -315,9 +323,6 @@ class StockTradingEnv(gym.Env):
             )
             df_total_value = pd.DataFrame(self.asset_memory)
 
-
-            # EDIT THIS REWARD
-            # HOW IS THE MODEL LEARNING??? WHAT ARE THE REWARDS IT TAKES AS INPUTS?
             tot_reward = (
                 self.state[0]
                 + sum(
@@ -440,14 +445,18 @@ class StockTradingEnv(gym.Env):
 
 
             # EDITING THE REWARD FUNCTION HERE 
-            # if(self.reward_type == "Sharpe"):
-            #     self.reward = self.rolling_sharpe_ratio(end_total_asset-begin_total_asset)
-            # elif(self.reward_type == "Sortino"):
-            #     self.reward = self.rolling_downside_deviation_ratio(end_total_asset - begin_total_asset)
-            self.reward = self.rolling_downside_deviation_ratio(end_total_asset - begin_total_asset)    
+            if(self.reward_type == "Sharpe"):
+                self.reward = self.rolling_sharpe_ratio(end_total_asset-begin_total_asset)
+            elif(self.reward_type == "Sortino"):
+                self.reward = self.rolling_downside_deviation_ratio(end_total_asset - begin_total_asset)
+            elif(self.reward_type == "Profit"):
+                self.reward = end_total_asset - begin_total_asset
+
+            # self.reward = self.rolling_downside_deviation_ratio(end_total_asset - begin_total_asset)    
             # else:
             #     self.reward = self.
             # self.reward = end_total_asset - begin_total_asset
+            
             self.rewards_memory.append(self.reward)
             self.reward = self.reward * self.reward_scaling
             self.state_memory.append(
