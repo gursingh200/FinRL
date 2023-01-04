@@ -43,6 +43,7 @@ class StockTradingEnv(gym.Env):
 
         window_size = 21,
         reward_type = "Sortino", # "Sharpe", "Sortino", "Profit"
+        seed = 1,
 
         day=0,
         initial=True,
@@ -117,8 +118,9 @@ class StockTradingEnv(gym.Env):
         self.returns_queue = [0]*self.window_size
         self.prev_average = 0
         self.prev_deviation = 0
+        self.seed = seed
 
-        self._seed()
+        self._seed(self.seed)
 
     def _sell_stock(self, index, action):
         def _do_sell_normal():
