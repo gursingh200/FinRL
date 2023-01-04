@@ -68,7 +68,8 @@ class FeatureEngineer:
         use_vix=False,
         use_turbulence=False,
         user_defined_feature=False,
-        window_size = 21
+        window_size = 21,
+        reward_type = "Sortino" # Sharpe, Sortino, Profit
     ):
         self.use_technical_indicator = use_technical_indicator
         self.tech_indicator_list = tech_indicator_list
@@ -76,6 +77,7 @@ class FeatureEngineer:
         self.use_turbulence = use_turbulence
         self.user_defined_feature = user_defined_feature
         self.window_size = window_size
+        self.reward_type = reward_type
 
     def preprocess_data(self, df):
         """main method to do the feature engineering
@@ -179,6 +181,8 @@ class FeatureEngineer:
         :return: (dd) float
         """
         return np.sqrt(np.sum(data[data<0]**2)/self.window_size)
+    
+
 
     def add_user_defined_feature(self, data):
         """
@@ -193,23 +197,27 @@ class FeatureEngineer:
         # df['return_lag_3']=df.close.pct_change(4)
         # df['return_lag_4']=df.close.pct_change(5)
 
-        # Adding a feature which computes the returns over the window before so that it can be fed to the model. 
-        # This allows using Sharpe or Sterling Ratio 
-        # Padding with zeros in the start so returns over the window before so that it can be fed to the model. 
-        # This ensures that there are no NaNs
-        zero_data = np.zeros(shape=(self.window_size-1,len(df.columns)))
-        pad = pd.DataFrame(zero_data, columns=df.columns)
-        df = pd.concat([pad,df])
+        if(self.reward_type != "Profit"):
+            
+            # Adding a feature which computes the returns over the window before so that it can be fed to the model. 
+            # Padding with zeros in the start to ensure that there are no NaNs
+            zero_data = np.zeros(shape=(self.window_size-1,len(df.columns)))
+            pad = pd.DataFrame(zero_data, columns=df.columns)
+            df = pd.concat([pad,df])
+            
+            # The ratios require the average return in the numerator
+            df["rolling_avg"] = df["close"].rolling(self.window_size).sum()/self.window_size
 
+            if(self.reward_type == "Sortino"):
+                # Adding the rolling downside deviation as the column for Sortino
+                df["rolling_dd"] = df["close"].rolling(self.window_size).apply(lambda x: self.downside_deviation_lambda(x))
 
-        df["rolling_sum"] = df["close"].rolling(self.window_size).sum()
-        df["rolling_dd"] = df["close"].rolling(self.window_size).apply(lambda x: self.downside_deviation_lambda(x))
-
-
-        # Rolling downside deviation vs rolling sharpe vs rolling drawdown
-
-        # Removing the added padding
-        df = df.iloc[self.window_size-1:]
+            if(self.reward_type == "Sharpe"):
+                # Adding the rolling standard deviation as the column for Sharpe ratio
+                df["rolling_stddev"] =df["close"].rolling(self.window_size).std()
+                
+            # Removing the added padding
+            df = df.iloc[self.window_size-1:]
         
         return df
 
