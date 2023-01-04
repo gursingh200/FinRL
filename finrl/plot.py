@@ -43,12 +43,14 @@ def backtest_stats(account_value, value_col_name="account_value"):
     return perf_stats_all
 
 
+
 def backtest_plot(
     account_value,
     baseline_start=config.TRADE_START_DATE,
     baseline_end=config.TRADE_END_DATE,
     baseline_ticker="^DJI",
     value_col_name="account_value",
+    return_fig = False
 ):
     df = deepcopy(account_value)
     df["date"] = pd.to_datetime(df["date"])
@@ -64,10 +66,15 @@ def backtest_plot(
     baseline_returns = get_daily_return(baseline_df, value_col_name="close")
 
     with pyfolio.plotting.plotting_context(font_scale=1.1):
-        pyfolio.create_full_tear_sheet(
-            returns=test_returns, benchmark_rets=baseline_returns, set_context=False
-        )
-
+        if(return_fig == False):
+            pyfolio.create_full_tear_sheet(
+                returns=test_returns, benchmark_rets=baseline_returns, set_context=False
+            )
+        else:
+            fig = pyfolio.create_full_tear_sheet(
+                returns=test_returns, benchmark_rets=baseline_returns, set_context=False, return_fig = True
+            )
+            return fig
 
 def get_baseline(ticker, start, end):
     return YahooDownloader(
