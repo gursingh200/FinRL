@@ -43,7 +43,7 @@ class StockTradingEnv(gym.Env):
 
         window_size = 21,
         reward_type = "Sortino", # "Sharpe", "Sortino", "Profit"
-        seed = 1,
+        env_seed = 1, # Renaming this so that no clashing with model seed when it's called
 
         day=0,
         initial=True,
@@ -118,7 +118,7 @@ class StockTradingEnv(gym.Env):
         self.returns_queue = [0]*self.window_size
         self.prev_average = 0
         self.prev_deviation = 0
-        self.seed = seed
+        self.seed = env_seed
 
         self._seed(self.seed)
 
