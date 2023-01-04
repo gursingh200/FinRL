@@ -40,14 +40,16 @@ class StockTradingEnv(gym.Env):
         risk_indicator_col="turbulence",
         make_plots: bool = False,
         print_verbosity=10,
+
+        window_size = 21,
+        reward_type = "Sortino", # "Sharpe", "Sortino", "Profit"
+
         day=0,
         initial=True,
         previous_state=[],
         model_name="",
         mode="",
-        iteration="",
-        window_size = 21,
-        reward_type = "Sharpe" # "Sharpe", "Sortino", "Profit"
+        iteration=""
     ):
         self.day = day
         self.df = df
@@ -102,7 +104,8 @@ class StockTradingEnv(gym.Env):
         #         self.logger = Logger('results',[CSVOutputFormat])
         # self.reset()
         
-        if(reward_type in ["Sharpe","Sortino","Sterling"]):
+        if(reward_type in ["Sharpe","Sortino","Profit"]):
+            print("Using", reward_type, "as the reward")
             self.reward_type = reward_type
         else:
             self.reward_type = "Sortino"
@@ -321,8 +324,7 @@ class StockTradingEnv(gym.Env):
                 np.array(self.state[1 : (self.stock_dim + 1)])
                 * np.array(self.state[(self.stock_dim + 1) : (self.stock_dim * 2 + 1)])
             )
-            df_total_value = pd.DataFrame(self.asset_memory)
-
+            df_total_value = pd.DataFrame(self.asset_memory) 
             tot_reward = (
                 self.state[0]
                 + sum(
@@ -451,12 +453,9 @@ class StockTradingEnv(gym.Env):
                 self.reward = self.rolling_downside_deviation_ratio(end_total_asset - begin_total_asset)
             elif(self.reward_type == "Profit"):
                 self.reward = end_total_asset - begin_total_asset
-
-            # self.reward = self.rolling_downside_deviation_ratio(end_total_asset - begin_total_asset)    
-            # else:
-            #     self.reward = self.
-            # self.reward = end_total_asset - begin_total_asset
-            
+            else:
+                print("Logical error in the naming")
+                exit()
             self.rewards_memory.append(self.reward)
             self.reward = self.reward * self.reward_scaling
             self.state_memory.append(

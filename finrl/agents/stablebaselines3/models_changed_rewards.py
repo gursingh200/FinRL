@@ -74,7 +74,7 @@ class DRLAgent:
         policy_kwargs=None,
         model_kwargs=None,
         verbose=1,
-        seed=None,
+        # seed=None # Seed as input in model_kwargs
         tensorboard_log=None,
     ):
         if model_name not in MODELS:
@@ -95,7 +95,7 @@ class DRLAgent:
             tensorboard_log=tensorboard_log,
             verbose=verbose,
             policy_kwargs=policy_kwargs,
-            seed=seed,
+            # seed=seed,
             **model_kwargs,
         )
 
@@ -170,7 +170,7 @@ class DRLEnsembleAgent:
         policy="MlpPolicy",
         policy_kwargs=None,
         model_kwargs=None,
-        seed=None,
+        # seed=None,  # Seed as input in model_kwargs
         verbose=1,
     ):
 
@@ -194,7 +194,7 @@ class DRLEnsembleAgent:
             tensorboard_log=f"{config.TENSORBOARD_LOG_DIR}/{model_name}",
             verbose=verbose,
             policy_kwargs=policy_kwargs,
-            seed=seed,
+            # seed=seed,
             **temp_model_kwargs,
         )
 
@@ -271,6 +271,13 @@ class DRLEnsembleAgent:
         self.tech_indicator_list = tech_indicator_list
         self.print_verbosity = print_verbosity
 
+        self.window_size = window_size
+        if(reward_type in ["Sharpe","Sortino","Profit"]):
+            print("Using", reward_type, "as the reward")
+            self.reward_type = reward_type
+        else:
+            self.reward_type = "Sortino"
+
     def DRL_validation(self, model, test_data, test_env, test_obs):
         """validation process"""
         for _ in range(len(test_data.index.unique())):
@@ -309,6 +316,8 @@ class DRLEnsembleAgent:
                     mode="trade",
                     iteration=iter_num,
                     print_verbosity=self.print_verbosity,
+                    window_size= self.window_size,
+                    reward_type= self.reward_type,
                 )
             ]
         )
@@ -442,6 +451,8 @@ class DRLEnsembleAgent:
                         action_space=self.action_space,
                         tech_indicator_list=self.tech_indicator_list,
                         print_verbosity=self.print_verbosity,
+                        window_size= self.window_size,
+                        reward_type= self.reward_type,
                     )
                 ]
             )
@@ -503,6 +514,8 @@ class DRLEnsembleAgent:
                         model_name="A2C",
                         mode="validation",
                         print_verbosity=self.print_verbosity,
+                        window_size= self.window_size,
+                        reward_type= self.reward_type,
                     )
                 ]
             )
@@ -552,6 +565,8 @@ class DRLEnsembleAgent:
                         model_name="PPO",
                         mode="validation",
                         print_verbosity=self.print_verbosity,
+                        window_size= self.window_size,
+                        reward_type= self.reward_type,
                     )
                 ]
             )
@@ -604,6 +619,8 @@ class DRLEnsembleAgent:
                         model_name="DDPG",
                         mode="validation",
                         print_verbosity=self.print_verbosity,
+                        window_size= self.window_size,
+                        reward_type= self.reward_type,
                     )
                 ]
             )

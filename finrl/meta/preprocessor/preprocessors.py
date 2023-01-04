@@ -77,8 +77,13 @@ class FeatureEngineer:
         self.use_turbulence = use_turbulence
         self.user_defined_feature = user_defined_feature
         self.window_size = window_size
-        self.reward_type = reward_type
-
+        if(reward_type in ["Sharpe","Sortino","Profit"]):
+            self.reward_type = reward_type
+            print("Using", reward_type, "as the reward")
+        else:
+            self.reward_type = "Sortino"
+            print(reward_type, "is not a valid reward type, please re-enter from the list [Sharpe, Sortino, Profit]. Using Sortino Ratio")
+            
     def preprocess_data(self, df):
         """main method to do the feature engineering
         @:param config: source dataframe
@@ -209,16 +214,20 @@ class FeatureEngineer:
             df["rolling_avg"] = df["close"].rolling(self.window_size).sum()/self.window_size
 
             if(self.reward_type == "Sortino"):
+                print("Adding Sortino ratio relevant features")
                 # Adding the rolling downside deviation as the column for Sortino
                 df["rolling_dd"] = df["close"].rolling(self.window_size).apply(lambda x: self.downside_deviation_lambda(x))
 
             if(self.reward_type == "Sharpe"):
+                print("Adding Sharpe ratio relevant features")
                 # Adding the rolling standard deviation as the column for Sharpe ratio
                 df["rolling_stddev"] =df["close"].rolling(self.window_size).std()
                 
             # Removing the added padding
             df = df.iloc[self.window_size-1:]
-        
+        else:
+            
+            print("No new features added as Profit is the reward")
         return df
 
     def add_vix(self, data):
