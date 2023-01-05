@@ -95,7 +95,7 @@ class DRLAgent:
             tensorboard_log=tensorboard_log,
             verbose=verbose,
             policy_kwargs=policy_kwargs,
-            # seed=seed,
+            # seed=seed, # Seed is part of model_kwargs
             **model_kwargs,
         )
 
@@ -188,13 +188,14 @@ class DRLEnsembleAgent:
                 temp_model_kwargs["action_noise"]
             ](mean=np.zeros(n_actions), sigma=0.1 * np.ones(n_actions))
         print(temp_model_kwargs)
+        # print("Seed:", seed)
         return MODELS[model_name](
             policy=policy,
             env=env,
             tensorboard_log=f"{config.TENSORBOARD_LOG_DIR}/{model_name}",
             verbose=verbose,
             policy_kwargs=policy_kwargs,
-            # seed=seed,
+            # seed=seed, # Seed is part of temp_model_kwargs
             **temp_model_kwargs,
         )
 
@@ -248,6 +249,7 @@ class DRLEnsembleAgent:
         print_verbosity,
         window_size,
         reward_type
+        # env_seed
     ):
 
         self.df = df
@@ -276,8 +278,9 @@ class DRLEnsembleAgent:
             print("Using", reward_type, "as the reward")
             self.reward_type = reward_type
         else:
+            print(reward_type, "is not a valid reward type, pleaprint("")se re-enter from the list [Sharpe, Sortino, Profit]. Using Sortino Ratio")
             self.reward_type = "Sortino"
-
+        # self.env_seed = env_seed
     def DRL_validation(self, model, test_data, test_env, test_obs):
         """validation process"""
         for _ in range(len(test_data.index.unique())):
@@ -318,6 +321,7 @@ class DRLEnsembleAgent:
                     print_verbosity=self.print_verbosity,
                     window_size= self.window_size,
                     reward_type= self.reward_type,
+                    # env_seed=self.env_seed
                 )
             ]
         )
@@ -352,7 +356,7 @@ class DRLEnsembleAgent:
         validation_start_date_list = []
         validation_end_date_list = []
         iteration_list = []
-
+        # self.seed = seed
         insample_turbulence = self.df[
             (self.df.date < self.train_period[1])
             & (self.df.date >= self.train_period[0])
@@ -453,6 +457,7 @@ class DRLEnsembleAgent:
                         print_verbosity=self.print_verbosity,
                         window_size= self.window_size,
                         reward_type= self.reward_type,
+                        # env_seed=self.env_seed
                     )
                 ]
             )
@@ -516,6 +521,7 @@ class DRLEnsembleAgent:
                         print_verbosity=self.print_verbosity,
                         window_size= self.window_size,
                         reward_type= self.reward_type,
+                        # env_seed=self.env_seed
                     )
                 ]
             )
@@ -567,6 +573,7 @@ class DRLEnsembleAgent:
                         print_verbosity=self.print_verbosity,
                         window_size= self.window_size,
                         reward_type= self.reward_type,
+                        # env_seed=self.env_seed
                     )
                 ]
             )
@@ -585,7 +592,7 @@ class DRLEnsembleAgent:
                 "ddpg",
                 self.train_env,
                 policy="MlpPolicy",
-                model_kwargs=DDPG_model_kwargs,
+                model_kwargs=DDPG_model_kwargs
             )
             model_ddpg = self.train_model(
                 model_ddpg,
@@ -621,6 +628,7 @@ class DRLEnsembleAgent:
                         print_verbosity=self.print_verbosity,
                         window_size= self.window_size,
                         reward_type= self.reward_type,
+                        # env_seed=self.env_seed
                     )
                 ]
             )
