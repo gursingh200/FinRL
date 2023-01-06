@@ -17,7 +17,7 @@ sys.path.append('../../../FinRL/')
 
 import os.path as path
 
-result_path = path.join('results','overnight_run')
+result_path = path.join('results','overnight_run_delta')
 
 import pandas as pd
 import numpy as np
@@ -29,8 +29,8 @@ import datetime
 from finrl.config_tickers import DOW_30_TICKER
 from finrl.meta.preprocessor.yahoodownloader import YahooDownloader
 from finrl.meta.preprocessor.preprocessors import FeatureEngineer, data_split
-from finrl.meta.env_stock_trading.env_stocktrading_new_reward import StockTradingEnv
-from finrl.agents.stablebaselines3.models_changed_rewards import DRLAgent,DRLEnsembleAgent
+from finrl.meta.env_stock_trading.env_stocktrading_new_reward_delta import StockTradingEnv
+from finrl.agents.stablebaselines3.models_changed_rewards_delta import DRLAgent,DRLEnsembleAgent
 from finrl.plot import backtest_stats, backtest_plot, get_daily_return, get_baseline
 
 from pprint import pprint
@@ -117,12 +117,6 @@ df = YahooDownloader(start_date = TRAIN_START_DATE,
 
 
 ''' ----------------------------- PROCESSING THE DATA ----------------------------- '''
-
-#  INDICATORS = ['macd',
-#                'rsi_30',
-#                'cci_30',
-#                'dx_30']
-
 
 fe = FeatureEngineer(use_technical_indicator=True,
                      tech_indicator_list = INDICATORS,
