@@ -123,6 +123,11 @@ fe = FeatureEngineer(use_technical_indicator=True,
                      use_turbulence=True,
                      user_defined_feature = args.use_extra_features, window_size = args.window_size, reward_type = args.reward_type)
 
+#  INDICATORS = ['macd',
+#                'rsi_30',
+#                'cci_30',
+#                'dx_30']
+
 processed = fe.preprocess_data(df)
 processed = processed.copy()
 processed = processed.fillna(0)
