@@ -118,10 +118,10 @@ df = YahooDownloader(start_date = TRAIN_START_DATE,
 
 ''' ----------------------------- PROCESSING THE DATA ----------------------------- '''
 
-#  INDICATORS = ['macd',
-#                'rsi_30',
-#                'cci_30',
-#                'dx_30']
+INDICATORS = ['macd',
+               'rsi_30',
+               'cci_30',
+               'dx_30']
 
 
 fe = FeatureEngineer(use_technical_indicator=True,

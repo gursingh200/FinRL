@@ -1,0 +1,5 @@
+p
+ython FinRL_Ensemble_StockTrading_ICAIF_2020_changed_reward.py --window_size 63 --retrain_window 63 --reward_type Sortino --use_extra_features True --seed 1; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_changed_reward.py --window_size 63 --retrain_window 63 --reward_type Sortino --use_extra_features True --seed 1; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_changed_reward.py --window_size 63 --retrain_window 63 --reward_type Sortino --use_extra_features True --seed 1; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_changed_reward.py --window_size 63 --retrain_window 63 --reward_type Sortino --use_extra_features True --seed 1; 
