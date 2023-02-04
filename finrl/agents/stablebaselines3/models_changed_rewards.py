@@ -278,7 +278,7 @@ class DRLEnsembleAgent:
             print("Using", reward_type, "as the reward")
             self.reward_type = reward_type
         else:
-            print(reward_type, "is not a valid reward type, pleaprint("")se re-enter from the list [Sharpe, Sortino, Profit]. Using Sortino Ratio")
+            print(reward_type, "is not a valid reward type, please re-enter from the list [Sharpe, Sortino, Profit]. Using Sortino Ratio")
             self.reward_type = "Sortino"
         # self.env_seed = env_seed
     def DRL_validation(self, model, test_data, test_env, test_obs):
