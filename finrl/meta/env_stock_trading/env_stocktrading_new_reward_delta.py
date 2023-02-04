@@ -461,6 +461,7 @@ class StockTradingEnv(gym.Env):
                 exit()
             self.rewards_memory.append(self.reward)
             self.reward = self.reward * self.reward_scaling
+            self.prev_reward = self.reward
             self.state_memory.append(
                 self.state
             )  # add current state in state_recorder for each step
