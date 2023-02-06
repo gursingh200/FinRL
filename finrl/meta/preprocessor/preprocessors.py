@@ -10,7 +10,12 @@ from stockstats import StockDataFrame as Sdf
 
 from finrl import config
 from finrl.meta.preprocessor.yahoodownloader import YahooDownloader
-
+from finrl.meta.preprocessor.extra_reward_features import add_extra_features
+# import sys
+# sys.path.append('../../finrl/meta/')
+# # import os
+# print(sys.path)
+# print(os.getcwd())
 
 def load_dataset(*, file_name: str) -> pd.DataFrame:
     """
@@ -69,7 +74,8 @@ class FeatureEngineer:
         use_turbulence=False,
         user_defined_feature=False,
         window_size = 21,
-        reward_type = "Sortino" # Sharpe, Sortino, Profit
+        reward_type = "Sortino", # Sharpe, Sortino, Profit
+        using_delta = True
     ):
         self.use_technical_indicator = use_technical_indicator
         self.tech_indicator_list = tech_indicator_list
@@ -79,7 +85,10 @@ class FeatureEngineer:
         self.window_size = window_size
         if(reward_type in ["Sharpe","Sortino","Profit"]):
             self.reward_type = reward_type
-            print("Using", reward_type, "as the reward")
+            if(using_delta):
+                print("Using Delta", reward_type, "as the reward")
+            else:
+                print("Delta", reward_type, "as the reward")
         else:
             self.reward_type = "Sortino"
             print(reward_type, "is not a valid reward type, please re-enter from the list [Sharpe, Sortino, Profit]. Using Sortino Ratio")
@@ -179,14 +188,6 @@ class FeatureEngineer:
         # df = df.join(df.groupby(level=0, group_keys=False).apply(lambda x, y: Sdf.retype(x)[y], y=self.tech_indicator_list))
         # return df.reset_index()
 
-    def downside_deviation_lambda(self, data):
-        """
-        function to compute the downside deviation of an array
-        :param data: (data) numpy array
-        :return: (dd) float
-        """
-        return np.sqrt(np.sum(data[data<0]**2)/self.window_size)
-    
 
 
     def add_user_defined_feature(self, data):
@@ -202,32 +203,34 @@ class FeatureEngineer:
         # df['return_lag_3']=df.close.pct_change(4)
         # df['return_lag_4']=df.close.pct_change(5)
 
-        if(self.reward_type != "Profit"):
-            
-            # Adding a feature which computes the returns over the window before so that it can be fed to the model. 
-            # Padding with zeros in the start to ensure that there are no NaNs
-            zero_data = np.zeros(shape=(self.window_size-1,len(df.columns)))
-            pad = pd.DataFrame(zero_data, columns=df.columns)
-            df = pd.concat([pad,df])
-            
-            # The ratios require the average return in the numerator
-            df["rolling_avg"] = df["close"].rolling(self.window_size).sum()/self.window_size
+        df = add_extra_features(df,self.reward_type,self.window_size)
 
-            if(self.reward_type == "Sortino"):
-                print("Adding Sortino ratio relevant features")
-                # Adding the rolling downside deviation as the column for Sortino
-                df["rolling_dd"] = df["close"].rolling(self.window_size).apply(lambda x: self.downside_deviation_lambda(x))
+        # if(self.reward_type != "Profit"):
+            
+        #     # Adding a feature which computes the returns over the window before so that it can be fed to the model. 
+        #     # Padding with zeros in the start to ensure that there are no NaNs
+        #     zero_data = np.zeros(shape=(self.window_size-1,len(df.columns)))
+        #     pad = pd.DataFrame(zero_data, columns=df.columns)
+        #     df = pd.concat([pad,df])
+            
+        #     # The ratios require the average return in the numerator
+        #     df["rolling_avg"] = df["close"].rolling(self.window_size).sum()/self.window_size
 
-            if(self.reward_type == "Sharpe"):
-                print("Adding Sharpe ratio relevant features")
-                # Adding the rolling standard deviation as the column for Sharpe ratio
-                df["rolling_stddev"] =df["close"].rolling(self.window_size).std()
+        #     if(self.reward_type == "Sortino"):
+        #         print("Adding Sortino ratio relevant features")
+        #         # Adding the rolling downside deviation as the column for Sortino
+        #         df["rolling_dd"] = df["close"].rolling(self.window_size).apply(lambda x: self.downside_deviation_lambda(x))
+
+        #     if(self.reward_type == "Sharpe"):
+        #         print("Adding Sharpe ratio relevant features")
+        #         # Adding the rolling standard deviation as the column for Sharpe ratio
+        #         df["rolling_stddev"] =df["close"].rolling(self.window_size).std()
                 
-            # Removing the added padding
-            df = df.iloc[self.window_size-1:]
-        else:
+        #     # Removing the added padding
+        #     df = df.iloc[self.window_size-1:]
+        # else:
             
-            print("No new features added as Profit is the reward")
+        #     print("No new features added as Profit is the reward")
         return df
 
     def add_vix(self, data):
