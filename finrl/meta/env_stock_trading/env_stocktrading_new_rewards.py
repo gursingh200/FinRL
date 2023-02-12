@@ -12,7 +12,7 @@ import pandas as pd
 from gym import spaces
 from gym.utils import seeding
 from stable_baselines3.common.vec_env import DummyVecEnv
-
+from finrl.meta.env_stock_trading.new_reward_computation import compute_rewards
 matplotlib.use("Agg")
 
 # from stable_baselines3.common.logger import Logger, KVWriter, CSVOutputFormat
@@ -465,24 +465,28 @@ class StockTradingEnv(gym.Env):
             self.date_memory.append(self._get_date())
 
 
+
+            compute_rewards(self,end_total_asset,begin_total_asset)
             # EDITING THE REWARD FUNCTION HERE 
-            if(self.reward_type == "Sharpe"):
-                if(self.delta_reward == True):
-                    self.reward = self.rolling_sharpe_ratio(end_total_asset-begin_total_asset) - self.prev_reward
-                else: 
-                    self.reward = self.rolling_sharpe_ratio(end_total_asset-begin_total_asset)
+            # if(self.reward_type == "Sharpe"):
+            #     if(self.delta_reward == True):
+            #         self.reward = self.rolling_sharpe_ratio(end_total_asset-begin_total_asset) - self.prev_reward
+            #     else: 
+            #         self.reward = self.rolling_sharpe_ratio(end_total_asset-begin_total_asset)
 
-            elif(self.reward_type == "Sortino"):
-                if(self.delta_reward == True):
-                    self.reward = self.rolling_downside_deviation_ratio(end_total_asset - begin_total_asset) - self.prev_reward
-                else:
-                    self.reward = self.rolling_downside_deviation_ratio(end_total_asset - begin_total_asset)
+            # elif(self.reward_type == "Sortino"):
+            #     if(self.delta_reward == True):
+            #         self.reward = self.rolling_downside_deviation_ratio(end_total_asset - begin_total_asset) - self.prev_reward
+            #     else:
+            #         self.reward = self.rolling_downside_deviation_ratio(end_total_asset - begin_total_asset)
 
-            elif(self.reward_type == "Profit"):
-                self.reward = end_total_asset - begin_total_asset
-            else:
-                print("Logical error in the naming")
-                exit()
+            # elif(self.reward_type == "Profit"):
+            #     self.reward = end_total_asset - begin_total_asset
+            # else:
+            #     print("Logical error in the naming")
+            #     exit()
+
+
             self.rewards_memory.append(self.reward)
             self.reward = self.reward * self.reward_scaling
             self.prev_reward = self.reward
