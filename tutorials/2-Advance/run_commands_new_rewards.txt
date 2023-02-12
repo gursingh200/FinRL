@@ -2,9 +2,6 @@
 
 
 
-
-
-
 # python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 1 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Profit --seed 0; 
 # python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 1 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Profit --seed 1; 
 # python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 1 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Profit --seed 2; 
@@ -39,8 +36,6 @@
 # python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 1 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sharpe --use_extra_features False --seed 3;
 # python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 1 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sharpe --use_extra_features False --seed 4;
 
-
-
 # python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sortino --use_extra_features True --seed 0; 
 # python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sortino --use_extra_features True --seed 1; 
 # python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sortino --use_extra_features True --seed 2; 
@@ -49,19 +44,19 @@
 # python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sharpe --use_extra_features True --seed 0; 
 # python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sharpe --use_extra_features True --seed 1; 
 # python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sharpe --use_extra_features True --seed 2; 
-# python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sharpe --use_extra_features True --seed 3;
 # python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sharpe --use_extra_features True --seed 4;
+# python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sharpe --use_extra_features True --seed 3;
 
-python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sortino --use_extra_features False --seed 0; 
-python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sortino --use_extra_features False --seed 1; 
-python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sortino --use_extra_features False --seed 2; 
-python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sortino --use_extra_features False --seed 3;
-python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sortino --use_extra_features False --seed 4;
-python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sharpe --use_extra_features False --seed 0; 
-python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sharpe --use_extra_features False --seed 1; 
-python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sharpe --use_extra_features False --seed 2; 
-python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sharpe --use_extra_features False --seed 3;
-python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sharpe --use_extra_features False --seed 4;
+# python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sortino --use_extra_features False --seed 0; 
+# python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sortino --use_extra_features False --seed 1; 
+# python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sortino --use_extra_features False --seed 2; 
+# python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sortino --use_extra_features False --seed 3;
+# python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sortino --use_extra_features False --seed 4;
+# python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sharpe --use_extra_features False --seed 0; 
+# python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sharpe --use_extra_features False --seed 1; 
+# python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sharpe --use_extra_features False --seed 2; 
+# python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sharpe --use_extra_features False --seed 3;
+# python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py --indicator_level 2 --use_delta_reward False --window_size 63 --retrain_window 63 --reward_type Sharpe --use_extra_features False --seed 4;
 
 
 
