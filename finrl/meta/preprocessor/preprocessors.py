@@ -88,7 +88,7 @@ class FeatureEngineer:
             if(using_delta):
                 print("Using Delta", reward_type, "as the reward")
             else:
-                print("Delta", reward_type, "as the reward")
+                print(reward_type, "as the reward")
         else:
             self.reward_type = "Sortino"
             print(reward_type, "is not a valid reward type, please re-enter from the list [Sharpe, Sortino, Profit]. Using Sortino Ratio")
