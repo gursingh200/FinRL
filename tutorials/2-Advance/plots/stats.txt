@@ -16,3 +16,4 @@ Sortino_featuresFalse_window63_rolling5_seeds5_deltaFalse_indicator2.png: -0.356
 Sharpe_featuresFalse_window63_rolling5_seeds5_deltaFalse_indicator2.png: 2.292% & 0.231 & 0.341 & -0.135 
 Profit_featuresFalse_window63_rolling5_seeds5_deltaFalse_indicator1.png: 1.665% & 0.184 & 0.264 & -0.126 
 Profit_featuresFalse_window63_rolling5_seeds5_deltaFalse_indicator2.png: 2.189% & 0.255 & 0.37 & -0.129 
+--------------------------------------- RERUNNING DELTAS ---------------------------------------------
