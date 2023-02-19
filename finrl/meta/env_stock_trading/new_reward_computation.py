@@ -53,19 +53,51 @@ def rolling_sharpe_ratio(self,cur_return):
     
     return reward
 
+def stddev_adjusted_profits(self,cur_return):
+    '''
+    Function that computes the Profit and then adjusts it according to the standard deviation of return
+    '''
+    rmv = self.returns_queue.pop(0) ## PRICE HISTORY HERE INSTEAD OF REURNS QUEUE
+    
+    # cur_average = self.prev_average + (cur_return-rmv)/self.window_size
+    
+    window_variance = self.prev_deviation**2 + (cur_return**2 - rmv**2)/self.window_size
+    
+    std_deviation= np.sqrt(window_variance)
+    
+    if(std_deviation!=0):
+        reward = cur_return/std_deviation
+    else:
+        reward = cur_return/0.01 # Assigning a very large reward to the agent, but not infinite  
+
+    # Updating the class object for the next iteration of the loop
+    self.returns_queue.append(cur_return)
+    self.prev_deviation = std_deviation
+    
+    return reward
+
+
+
 
 def compute_rewards(self,end_total_asset,begin_total_asset):
     if(self.reward_type == "Sharpe"):
+        cur_metric = rolling_sharpe_ratio(self,end_total_asset-begin_total_asset)
         if(self.delta_reward == True):
-            self.reward = rolling_sharpe_ratio(self,end_total_asset-begin_total_asset) - self.prev_reward
+            self.reward = cur_metric - self.prev_metric
+            self.prev_metric = cur_metric 
         else: 
-            self.reward = rolling_sharpe_ratio(self,end_total_asset-begin_total_asset)
+            self.reward = cur_metric
 
     elif(self.reward_type == "Sortino"):
+
+        cur_metric = rolling_downside_deviation_ratio(self,end_total_asset - begin_total_asset)
         if(self.delta_reward == True):
-            self.reward = rolling_downside_deviation_ratio(self,end_total_asset - begin_total_asset) - self.prev_reward
+            self.reward = cur_metric - self.prev_metric
+            self.prev_metric  = cur_metric
         else:
-            self.reward = rolling_downside_deviation_ratio(self,end_total_asset - begin_total_asset)
+            self.reward = cur_metric
+    # elif(self.reward_type == "Std_dev_profit"):
+    #     self.reward = 
 
     elif(self.reward_type == "Profit"):
         self.reward = end_total_asset - begin_total_asset
