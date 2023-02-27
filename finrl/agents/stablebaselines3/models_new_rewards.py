@@ -249,7 +249,9 @@ class DRLEnsembleAgent:
         print_verbosity,
         window_size,
         delta_reward,
-        reward_type
+        reward_type,
+        vol_window,
+        upside_vol
         # env_seed
     ):
 
@@ -285,12 +287,19 @@ class DRLEnsembleAgent:
             delta_string = "Delta "
         else: 
             delta_string = ""
-        if(reward_type in ["Sharpe","Sortino","Profit"]):
+        if(reward_type in ["Sharpe","Sortino","Profit","VolProfit"]):
             print("Using",delta_string, reward_type, "as the reward")
             self.reward_type = reward_type
         else:
             print(delta_string,reward_type, "is not a valid reward type, please re-enter from the list [Sharpe, Sortino, Profit]. Using",delta_string," Sortino Ratio")
             self.reward_type = "Sortino"
+        
+        self.vol_window = vol_window
+        self.upside_vol = upside_vol
+
+
+
+
         # self.env_seed = env_seed
     def DRL_validation(self, model, test_data, test_env, test_obs):
         """validation process"""
@@ -332,7 +341,9 @@ class DRLEnsembleAgent:
                     print_verbosity=self.print_verbosity,
                     window_size= self.window_size,
                     delta_reward = self.delta_reward,
-                    reward_type= self.reward_type,
+                    reward_type = self.reward_type,
+                    vol_window = self.vol_window,
+                    upside_vol= self.upside_vol,
                     # env_seed=self.env_seed
                 )
             ]
@@ -469,7 +480,9 @@ class DRLEnsembleAgent:
                         print_verbosity=self.print_verbosity,
                         window_size= self.window_size,
                         delta_reward = self.delta_reward,
-                        reward_type= self.reward_type,
+                        reward_type = self.reward_type,
+                        vol_window = self.vol_window,
+                        upside_vol= self.upside_vol,
                         # env_seed=self.env_seed
                     )
                 ]
@@ -534,7 +547,9 @@ class DRLEnsembleAgent:
                         print_verbosity=self.print_verbosity,
                         window_size= self.window_size,
                         delta_reward = self.delta_reward,
-                        reward_type= self.reward_type,
+                        reward_type = self.reward_type,
+                        vol_window = self.vol_window,
+                        upside_vol= self.upside_vol,
                         # env_seed=self.env_seed
                     )
                 ]
@@ -587,7 +602,9 @@ class DRLEnsembleAgent:
                         print_verbosity=self.print_verbosity,
                         window_size= self.window_size,
                         delta_reward = self.delta_reward,
-                        reward_type= self.reward_type,
+                        reward_type = self.reward_type,
+                        vol_window = self.vol_window,
+                        upside_vol= self.upside_vol,
                         # env_seed=self.env_seed
                     )
                 ]
@@ -643,7 +660,9 @@ class DRLEnsembleAgent:
                         print_verbosity=self.print_verbosity,
                         window_size= self.window_size,
                         delta_reward = self.delta_reward,
-                        reward_type= self.reward_type,
+                        reward_type = self.reward_type,
+                        vol_window = self.vol_window,
+                        upside_vol= self.upside_vol,
                         # env_seed=self.env_seed
                     )
                 ]

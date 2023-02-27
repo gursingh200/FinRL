@@ -17,3 +17,11 @@ Sharpe_featuresFalse_window63_rolling5_seeds5_deltaFalse_indicator2.png: 2.292% 
 Profit_featuresFalse_window63_rolling5_seeds5_deltaFalse_indicator1.png: 1.665% & 0.184 & 0.264 & -0.126 
 Profit_featuresFalse_window63_rolling5_seeds5_deltaFalse_indicator2.png: 2.189% & 0.255 & 0.37 & -0.129 
 --------------------------------------- RERUNNING DELTAS ---------------------------------------------
+Sortino_featuresTrue_window63_rolling5_seeds5_deltaTrue_indicator1.png: -0.093% & 0.058 & 0.103 & -0.144 
+Sharpe_featuresTrue_window63_rolling5_seeds5_deltaTrue_indicator1.png: 1.123% & 0.141 & 0.216 & -0.147 
+Sortino_featuresTrue_window63_rolling5_seeds5_deltaTrue_indicator2.png: 1.528% & 0.17 & 0.245 & -0.14 
+Sharpe_featuresTrue_window63_rolling5_seeds5_deltaTrue_indicator2.png: 1.225% & 0.151 & 0.214 & -0.125 
+Sortino_featuresFalse_window63_rolling5_seeds5_deltaTrue_indicator1.png: -1.206% & -0.015 & -0.019 & -0.14 
+Sharpe_featuresFalse_window63_rolling5_seeds5_deltaTrue_indicator1.png: -0.225% & 0.046 & 0.077 & -0.135 
+Sortino_featuresFalse_window63_rolling5_seeds5_deltaTrue_indicator2.png: -2.713% & -0.111 & -0.124 & -0.168 
+Sharpe_featuresFalse_window63_rolling5_seeds5_deltaTrue_indicator2.png: -1.398% & -0.027 & -0.024 & -0.148 

@@ -13,6 +13,11 @@ def downside_deviation_lambda(data,window_size):
 def add_extra_features(df,reward_type,window_size):
 
     if(reward_type != "Profit"):        
+
+        if(reward_type == "VolProfit"):
+            print("No new features added as VolProfit is the reward")
+            return df
+
         # Adding a feature which computes the returns over the window before so that it can be fed to the model. 
         # Padding with zeros in the start to ensure that there are no NaNs
         zero_data = np.zeros(shape=(window_size-1,len(df.columns)))

@@ -73,7 +73,7 @@ class FeatureEngineer:
         use_vix=False,
         use_turbulence=False,
         user_defined_feature=False,
-        window_size = 21,
+        window_size = 63,
         reward_type = "Sortino", # Sharpe, Sortino, Profit
         using_delta = True
     ):
@@ -83,7 +83,8 @@ class FeatureEngineer:
         self.use_turbulence = use_turbulence
         self.user_defined_feature = user_defined_feature
         self.window_size = window_size
-        if(reward_type in ["Sharpe","Sortino","Profit"]):
+
+        if(reward_type in ["Sharpe","Sortino","Profit","VolProfit"]):
             self.reward_type = reward_type
             if(using_delta):
                 print("Using Delta", reward_type, "as the reward")

@@ -42,9 +42,11 @@ class StockTradingEnv(gym.Env):
         print_verbosity=10,
 
         # Added features        
-        window_size = 21,
+        window_size = 63,
         delta_reward = False,
-        reward_type = "Sortino", # "Sharpe", "Sortino", "Profit"
+        reward_type = "Sortino", # "Sharpe", "Sortino", "Profit", "VolProfit"
+        vol_window = 21,
+        upside_vol = True,
         env_seed = 1, # Renaming this so that no clashing with model seed when it's called
 
         day=0,
@@ -120,22 +122,30 @@ class StockTradingEnv(gym.Env):
         else: 
             delta_string = ""
 
-        if(reward_type in ["Sharpe","Sortino","Profit"]):
+        if(reward_type in ["Sharpe","Sortino","Profit","VolProfit"]):
 
             print("Using", delta_string, reward_type, "as the reward")
             self.reward_type = reward_type
         else:
             self.reward_type = "Sortino"
-            print(delta_string, reward_type, "is not a valid reward type, please re-enter from the list [Sharpe, Sortino, Profit]. Using",delta_string," Sortino Ratio")
+            print(delta_string, reward_type, "is not a valid reward type, please re-enter from the list [Sharpe, Sortino, Profit, VolProfit]. Using",delta_string," Sortino Ratio")
 
-        # Window size for the rolling sterling ratio
+
+
         self.window_size = window_size
-        # Rewards queue to manage the rolling sterling ratio
         self.returns_queue = [0]*self.window_size
         self.prev_average = 0
         self.prev_deviation = 0
         self.prev_metric = 0
+        self.prev_metric = 0
+        
+        # --------------- VARIABLES USED IN VOLATILITY CALCULATIONS --------------------
+        self.vol_window = vol_window
+        self.upside_vol = upside_vol
+        # self.exp_weighing = exp_weighing 
         self.seed = env_seed
+
+        self.price_dataset = np.array([[1]*vol_window]*stock_dim) # THIS COMPUTATION SHOULD BE MADE A LOT MORE EFFICIENT. Setting 1s to prevent NaNs
 
         self._seed(self.seed)
 
@@ -428,6 +438,8 @@ class StockTradingEnv(gym.Env):
                 np.array(self.state[1 : (self.stock_dim + 1)])
                 * np.array(self.state[(self.stock_dim + 1) : (self.stock_dim * 2 + 1)])
             )
+            begin_asset_state = np.array(self.state[1 :self.stock_dim * 2 + 1])
+
             # print("begin_total_asset:{}".format(begin_total_asset))
 
             argsort_actions = np.argsort(actions)
@@ -461,12 +473,29 @@ class StockTradingEnv(gym.Env):
                 np.array(self.state[1 : (self.stock_dim + 1)])
                 * np.array(self.state[(self.stock_dim + 1) : (self.stock_dim * 2 + 1)])
             )
+            end_asset_state = np.array(self.state[1 :self.stock_dim * 2 + 1])
             self.asset_memory.append(end_total_asset)
             self.date_memory.append(self._get_date())
 
 
 
-            compute_rewards(self,end_total_asset,begin_total_asset)
+
+
+            # -----------------------------------------------------------------------------------------------------------
+            
+            # Updating the dataset used for volatility calculations 
+            self.price_dataset = self.price_dataset[:,1:]
+            cur_prices = np.array([begin_asset_state[:self.stock_dim]])
+            self.price_dataset = np.concatenate((self.price_dataset,cur_prices.T),axis = 1)
+            
+            compute_rewards(self,end_total_asset,begin_total_asset,begin_asset_state,end_asset_state)
+
+            # print(self.reward,self.reward_scaling)
+
+
+            # -----------------------------------------------------------------------------------------------------------
+
+
             # EDITING THE REWARD FUNCTION HERE 
             # if(self.reward_type == "Sharpe"):
             #     if(self.delta_reward == True):
@@ -485,7 +514,6 @@ class StockTradingEnv(gym.Env):
             # else:
             #     print("Logical error in the naming")
             #     exit()
-
 
             self.rewards_memory.append(self.reward)
             self.reward = self.reward * self.reward_scaling

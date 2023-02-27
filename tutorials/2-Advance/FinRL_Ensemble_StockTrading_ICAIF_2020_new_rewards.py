@@ -50,18 +50,24 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('--window_size',type = int, default = 63)
 
-parser.add_argument('--reward_type', default = 'Sortino', metavar = 'R',
-                    help= 'One of Sortino, Sharpe, Profit')
+parser.add_argument('--vol_window',type = int, default = 21)
+
+parser.add_argument('--upside_vol', default = False)
+
+parser.add_argument('--reward_scaling', default = '1e-4')
+
+parser.add_argument('-R','--reward_type', default = 'Sortino', metavar = 'R',
+                    help= 'One of Sortino, Sharpe, Profit, VolProfit')
 
 parser.add_argument("--use_delta_reward", default = False)
 
-parser.add_argument("--indicator_level", default = 1, type = int, help='level of technical indicators (1,2), where larger numbers mean more indicators')
+parser.add_argument('-IL',"--indicator_level", default = 1, type = int, help='level of technical indicators (1,2), where larger numbers mean more indicators')
 
 # parser.add_argument("--lag_feature_levels",default = 0, help='level of technical indicators (0,1,4), where larger numbers mean more lag features')
 
 parser.add_argument('--use_extra_features', default = True)
                     
-parser.add_argument('--seed', type=int, default=1, metavar='S',
+parser.add_argument('-S','--seed', type=int, default=1, metavar='S',
                     help='random seed (default: 1)')
 
 parser.add_argument('--tr_s_date =', default= '2009-04-01',
@@ -79,6 +85,7 @@ parser.add_argument('--retrain_window',type = int, default=63)
 args = parser.parse_args()
 args.use_extra_features = (args.use_extra_features == 'True')
 args.use_delta_reward = (args.use_delta_reward == 'True')
+args.upside_vol = (args.upside_vol == 'True')
 
 
 print(args)
@@ -138,7 +145,10 @@ if(args.indicator_level == 1):
 fe = FeatureEngineer(use_technical_indicator=True,
                      tech_indicator_list = INDICATORS,
                      use_turbulence=True,
-                     user_defined_feature = args.use_extra_features, window_size = args.window_size, reward_type = args.reward_type,using_delta = args.use_delta_reward)
+                     user_defined_feature = args.use_extra_features, 
+                     window_size = args.window_size, 
+                     reward_type = args.reward_type,
+                     using_delta = args.use_delta_reward)
 
 
 
@@ -151,11 +161,14 @@ print(processed.head())
 
 
 '''------------------------------     SETTING SAVE PATH      ----------------------------- '''
-
-if(args.use_delta_reward == True):
-    result_path = path.join('results','using_delta')
+if(args.reward_type == 'VolProfit'):
+    result_path = path.join('results','upside{}_vwindow{}_scaling{}'.format(str(args.upside_vol),args.vol_window,args.reward_scaling))
 else:
-    result_path = path.join('results','not_using_delta')
+    if(args.use_delta_reward == True):
+        result_path = path.join('results','using_delta')
+    else:
+        result_path = path.join('results','not_using_delta')
+
 
 result_path = result_path + "_" + str(args.indicator_level)
 
@@ -183,11 +196,14 @@ env_kwargs = {
     "stock_dim": stock_dimension, 
     "tech_indicator_list": INDICATORS,
     "action_space": stock_dimension, 
-    "reward_scaling": 1e-4,
+    "reward_scaling": float(args.reward_scaling),
     "print_verbosity":5,
     "window_size":args.window_size,
     "delta_reward": args.use_delta_reward,
     "reward_type":args.reward_type,
+    "vol_window":args.vol_window,
+    "upside_vol":args.upside_vol,
+
 }
 
 

@@ -1,0 +1,52 @@
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 1 -R VolProfit --upside_vol True --reward_scaling 1e-3 -S 0;
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 1 -R VolProfit --upside_vol True --reward_scaling 1e-3 -S 1; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 1 -R VolProfit --upside_vol True --reward_scaling 1e-3 -S 2; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 1 -R VolProfit --upside_vol True --reward_scaling 1e-3 -S 3; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 1 -R VolProfit --upside_vol True --reward_scaling 1e-3 -S 4; 
+
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 2 -R VolProfit --upside_vol True --reward_scaling 1e-3 -S 0;
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 2 -R VolProfit --upside_vol True --reward_scaling 1e-3 -S 1; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 2 -R VolProfit --upside_vol True --reward_scaling 1e-3 -S 2; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 2 -R VolProfit --upside_vol True --reward_scaling 1e-3 -S 3; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 2 -R VolProfit --upside_vol True --reward_scaling 1e-3 -S 4; 
+
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 1 -R VolProfit --upside_vol False --reward_scaling 1e-3 -S 0;
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 1 -R VolProfit --upside_vol False --reward_scaling 1e-3 -S 1; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 1 -R VolProfit --upside_vol False --reward_scaling 1e-3 -S 2; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 1 -R VolProfit --upside_vol False --reward_scaling 1e-3 -S 3; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 1 -R VolProfit --upside_vol False --reward_scaling 1e-3 -S 4; 
+
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 2 -R VolProfit --upside_vol False --reward_scaling 1e-3 -S 0;
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 2 -R VolProfit --upside_vol False --reward_scaling 1e-3 -S 1; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 2 -R VolProfit --upside_vol False --reward_scaling 1e-3 -S 2; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 2 -R VolProfit --upside_vol False --reward_scaling 1e-3 -S 3; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 2 -R VolProfit --upside_vol False --reward_scaling 1e-3 -S 4; 
+
+
+
+
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 1 -R VolProfit --upside_vol True --reward_scaling 1e-4 -S 0;
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 1 -R VolProfit --upside_vol True --reward_scaling 1e-4 -S 1; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 1 -R VolProfit --upside_vol True --reward_scaling 1e-4 -S 2; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 1 -R VolProfit --upside_vol True --reward_scaling 1e-4 -S 3; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 1 -R VolProfit --upside_vol True --reward_scaling 1e-4 -S 4; 
+
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 2 -R VolProfit --upside_vol True --reward_scaling 1e-4 -S 0;
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 2 -R VolProfit --upside_vol True --reward_scaling 1e-4 -S 1; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 2 -R VolProfit --upside_vol True --reward_scaling 1e-4 -S 2; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 2 -R VolProfit --upside_vol True --reward_scaling 1e-4 -S 3; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 2 -R VolProfit --upside_vol True --reward_scaling 1e-4 -S 4; 
+
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 1 -R VolProfit --upside_vol False --reward_scaling 1e-4 -S 0;
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 1 -R VolProfit --upside_vol False --reward_scaling 1e-4 -S 1; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 1 -R VolProfit --upside_vol False --reward_scaling 1e-4 -S 2; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 1 -R VolProfit --upside_vol False --reward_scaling 1e-4 -S 3; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 1 -R VolProfit --upside_vol False --reward_scaling 1e-4 -S 4; 
+
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 2 -R VolProfit --upside_vol False --reward_scaling 1e-4 -S 0;
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 2 -R VolProfit --upside_vol False --reward_scaling 1e-4 -S 1; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 2 -R VolProfit --upside_vol False --reward_scaling 1e-4 -S 2; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 2 -R VolProfit --upside_vol False --reward_scaling 1e-4 -S 3; 
+python FinRL_Ensemble_StockTrading_ICAIF_2020_new_rewards.py -IL 2 -R VolProfit --upside_vol False --reward_scaling 1e-4 -S 4; 
+
+
