@@ -25,3 +25,17 @@ Sortino_featuresFalse_window63_rolling5_seeds5_deltaTrue_indicator1.png: -1.206%
 Sharpe_featuresFalse_window63_rolling5_seeds5_deltaTrue_indicator1.png: -0.225% & 0.046 & 0.077 & -0.135 
 Sortino_featuresFalse_window63_rolling5_seeds5_deltaTrue_indicator2.png: -2.713% & -0.111 & -0.124 & -0.168 
 Sharpe_featuresFalse_window63_rolling5_seeds5_deltaTrue_indicator2.png: -1.398% & -0.027 & -0.024 & -0.148 
+VolProfit_featuresFalse_window63_rolling5_seeds5_upsideTrue_scale1e-3_vwindow21_indicator1.png: -4.864% & -0.275 & -0.372 & -0.167 
+VolProfit_featuresFalse_window63_rolling5_seeds5_upsideTrue_scale1e-3_vwindow21_indicator2.png: 2.281% & 0.229 & 0.327 & -0.117 
+VolProfit_featuresFalse_window63_rolling5_seeds5_upsideFalse_scale1e-3_vwindow21_indicator1.png: 1.716% & 0.188 & 0.271 & -0.138 
+VolProfit_featuresFalse_window63_rolling5_seeds5_upsideFalse_scale1e-3_vwindow21_indicator2.png: -2.405% & -0.108 & -0.135 & -0.163 
+VolProfit_featuresFalse_window63_rolling5_seeds5_upsideTrue_scale1e-4_vwindow21_indicator1.png: 1.281% & 0.166 & 0.24 & -0.124 
+VolProfit_featuresFalse_window63_rolling5_seeds5_upsideFalse_scale1e-4_vwindow21_indicator1.png: 3.641% & 0.313 & 0.472 & -0.135 
+VolProfit_featuresFalse_window63_rolling5_seeds5_upsideTrue_scale1e-4_vwindow21_indicator2.png: 0.171% & 0.078 & 0.115 & -0.152 
+VolProfit_featuresFalse_window63_rolling5_seeds5_upsideTrue_vwindow21_scaling1e-3_indicator1.png: -4.864% & -0.275 & -0.372 & -0.167 
+VolProfit_featuresFalse_window63_rolling5_seeds5_upsideTrue_vwindow21_scaling1e-3_indicator2.png: 2.281% & 0.229 & 0.327 & -0.117 
+VolProfit_featuresFalse_window63_rolling5_seeds5_upsideFalse_vwindow21_scaling1e-3_indicator1.png: 1.716% & 0.188 & 0.271 & -0.138 
+VolProfit_featuresFalse_window63_rolling5_seeds5_upsideFalse_vwindow21_scaling1e-3_indicator2.png: -2.405% & -0.108 & -0.135 & -0.163 
+VolProfit_featuresFalse_window63_rolling5_seeds5_upsideTrue_vwindow21_scaling1e-4_indicator1.png: 1.281% & 0.166 & 0.24 & -0.124 
+VolProfit_featuresFalse_window63_rolling5_seeds5_upsideTrue_vwindow21_scaling1e-4_indicator2.png: 0.171% & 0.078 & 0.115 & -0.152 
+VolProfit_featuresFalse_window63_rolling5_seeds5_upsideFalse_vwindow21_scaling1e-4_indicator1.png: 3.641% & 0.313 & 0.472 & -0.135 
